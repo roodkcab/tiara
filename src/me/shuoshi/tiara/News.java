@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -28,8 +27,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,13 +41,14 @@ public class News extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		listView = new ListView(this);
-		listView.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, new ArrayList()));
+		setContentView(R.layout.list);
+        listView=(ListView) findViewById(R.id.list);		
 		new LoadNewsTask().execute();
+
+        //listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList()));
 		// listView.setAdapter(new ArrayAdapter<String>(this,
 		// android.R.layout.simple_expandable_list_item_1,getData()));
-		// setContentView(listView);
+		//setContentView(listView);
 	}
 
 	@Override
@@ -82,9 +83,9 @@ public class News extends Activity {
 	        View row = convertView;
 	        if (row == null) {
 	            LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            //row = vi.inflate(R.layout.list, null);
+	            row = vi.inflate(R.layout.listitem, null);
 	        }
-	        //super.getView(position, convertView, parent);
+	        super.getView(position, convertView, parent);
 
 	        for (int i=0; i<fieldNames.length; i++) {
 	            TextView tv = (TextView) row.findViewById(fieldTargetIds[i]);
@@ -129,8 +130,8 @@ public class News extends Activity {
 						JSONObject jsonAttributes = newsesJson.getJSONObject(i);
 						Log.i("href", jsonAttributes.getString("href"));
 						HashMap<String, String> map = new HashMap<String, String>();
-				        map.put("href", jsonAttributes.getString("href"));
 				        map.put("title", jsonAttributes.getString("title"));
+				        map.put("href", jsonAttributes.getString("href"));
 						newses.add(map);
 					}
 				} catch (JSONException e) {
@@ -146,10 +147,11 @@ public class News extends Activity {
     	    return newses;		    	
         }
 
-		protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
-			/*ListAdapter adapter = new JsonAdapter(News.this, result, R.layout.list,
-		              new String[] {"href", "title"}, new int[] {R.id.item_href, R.id.item_title});
-			setListAdapter(adapter);*/
+		protected void onPostExecute(ArrayList<HashMap<String, String>> newses) {
+			ListAdapter adapter = new JsonAdapter(News.this, newses, R.layout.listitem,
+		              new String[] {"href", "title"}, new int[] {R.id.url, R.id.title});
+			listView.setAdapter(adapter);
+			((BaseAdapter) adapter).notifyDataSetChanged();
 		}
 	}
 }
