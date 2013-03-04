@@ -4,16 +4,80 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/title"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="TextView" />
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="4dp" >
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="TextView"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="TextView"
+            android:textSize="14dp" />
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/url"
-        android:layout_width="fill_parent"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_weight="3"
+        android:layout_margin="4dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="21dp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="4dp" >
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="TextView"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_toRightOf="@id/comments"
+            android:text="•"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/point"
+            android:text="TextView"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="TextView"
+            android:textSize="14dp" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -44,11 +44,6 @@ public class News extends Activity {
 		setContentView(R.layout.list);
         listView=(ListView) findViewById(R.id.list);		
 		new LoadNewsTask().execute();
-
-        //listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList()));
-		// listView.setAdapter(new ArrayAdapter<String>(this,
-		// android.R.layout.simple_expandable_list_item_1,getData()));
-		//setContentView(listView);
 	}
 
 	@Override
@@ -102,7 +97,7 @@ public class News extends Activity {
         	try {
 				DefaultHttpClient httpClient = new DefaultHttpClient();   
 		    	//创建HttpGet实例
-		    	HttpGet request = new HttpGet("http://shuoshi.me/news.php");
+		    	HttpGet request = new HttpGet("http://1.cstartup.sinaapp.com/");
 				// 连接服务器
 				HttpResponse response = httpClient.execute(request);
 				// 读取所有头数据
@@ -128,10 +123,13 @@ public class News extends Activity {
 					JSONArray newsesJson = new JSONArray(s.toString());
 					for (int i=0; i<newsesJson.length(); i++){
 						JSONObject jsonAttributes = newsesJson.getJSONObject(i);
-						Log.i("href", jsonAttributes.getString("href"));
 						HashMap<String, String> map = new HashMap<String, String>();
+				        map.put("com", jsonAttributes.getString("com"));
 				        map.put("title", jsonAttributes.getString("title"));
-				        map.put("href", jsonAttributes.getString("href"));
+				        map.put("user", jsonAttributes.getString("user"));
+				        map.put("score", jsonAttributes.getString("score"));
+				        map.put("comments", jsonAttributes.getString("comments"));
+				        map.put("time", jsonAttributes.getString("time"));
 						newses.add(map);
 					}
 				} catch (JSONException e) {
@@ -149,7 +147,7 @@ public class News extends Activity {
 
 		protected void onPostExecute(ArrayList<HashMap<String, String>> newses) {
 			ListAdapter adapter = new JsonAdapter(News.this, newses, R.layout.listitem,
-		              new String[] {"href", "title"}, new int[] {R.id.url, R.id.title});
+		              new String[] {"com", "title", "user", "score", "comments", "time"}, new int[] {R.id.com, R.id.title, R.id.user, R.id.score, R.id.comments, R.id.time});
 			listView.setAdapter(adapter);
 			((BaseAdapter) adapter).notifyDataSetChanged();
 		}
